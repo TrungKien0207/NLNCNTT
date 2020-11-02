@@ -333,7 +333,7 @@ def append_multilabeled_data(tup, sents, lens, entdists, numdists, labels, vocab
 def append_labelnums(labels):
     labelnums = [len(labellist) for labellist in labels]
     max_num_labels = max(labelnums)
-    print "max num labels", max_num_labels
+    print("max num labels", max_num_labels)
 
     # append number of labels to labels
     for i, labellist in enumerate(labels):
@@ -361,7 +361,7 @@ def save_full_sent_data(outfile, path="../boxscore-data/rotowire", multilabel_tr
     testsents, testlens, testentdists, testnumdists, testlabels = [], [], [], [], []
 
     max_trlen = max((len(tup[0]) for tup in datasets[0]))
-    print "max tr sentence length:", max_trlen
+    print("max tr sentence length:", max_trlen)
 
     # do training data
     for tup in datasets[0]:
@@ -379,8 +379,8 @@ def save_full_sent_data(outfile, path="../boxscore-data/rotowire", multilabel_tr
         random.shuffle(none_idxs)
         # allow at most 1/(nonedenom+1) of NONE-labeled
         num_to_keep = int(math.floor(float(len(trlabels)-len(none_idxs))/nonedenom))
-        print "originally", len(trlabels), "training examples"
-        print "keeping", num_to_keep, "NONE-labeled examples"
+        print("originally", len(trlabels), "training examples")
+        print("keeping", num_to_keep, "NONE-labeled examples")
         ignore_idxs = set(none_idxs[num_to_keep:])
 
         # get rid of most of the NONE-labeled examples
@@ -390,7 +390,7 @@ def save_full_sent_data(outfile, path="../boxscore-data/rotowire", multilabel_tr
         trnumdists = [thing for i,thing in enumerate(trnumdists) if i not in ignore_idxs]
         trlabels = [thing for i,thing in enumerate(trlabels) if i not in ignore_idxs]
 
-    print len(trsents), "training examples"
+    print(len(trsents), "training examples")
 
     # do val, which we also consider multilabel
     max_vallen = max((len(tup[0]) for tup in datasets[1]))
@@ -400,7 +400,7 @@ def save_full_sent_data(outfile, path="../boxscore-data/rotowire", multilabel_tr
 
     append_labelnums(vallabels)
 
-    print len(valsents), "validation examples"
+    print(len(valsents), "validation examples")
 
     # do test, which we also consider multilabel
     max_testlen = max((len(tup[0]) for tup in datasets[2]))
@@ -410,7 +410,7 @@ def save_full_sent_data(outfile, path="../boxscore-data/rotowire", multilabel_tr
 
     append_labelnums(testlabels)
 
-    print len(testsents), "test examples"
+    print(len(testsents), "test examples")
 
     h5fi = h5py.File(outfile, "w")
     h5fi["trsents"] = np.array(trsents, dtype=int)
@@ -495,7 +495,7 @@ def prep_generated_data(genfile, dict_pfx, outfile, path="../boxscore-data/rotow
 
     append_labelnums(plabels)
 
-    print len(psents), "prediction examples"
+    print(len(psents), "prediction examples")
 
     h5fi = h5py.File(outfile, "w")
     h5fi["valsents"] = np.array(psents, dtype=int)
@@ -539,7 +539,7 @@ def get_player_idxs(entry):
                 num_vis += 1
 
     if entry["home_city"] == entry["vis_city"] and entry["home_city"] == "Los Angeles":
-        print "LA teams"
+        print("LA teams")
         home_players, vis_players = [], []
         num_home, num_vis = 0, 0
         for i in xrange(nplayers):
@@ -715,7 +715,7 @@ def make_pointerfi(outfi, inp_file="rotowire/train.json", content_plan_inp="inte
 
             words_so_far += len(tokes)
         train_links.append(links)
-    print "SKIPPED", skipped
+    print("SKIPPED", skipped)
 
     # collapse multiple links
     trlink_dicts = []
@@ -783,7 +783,7 @@ def save_coref_task_data(outfile, inp_file="full_newnba_prepdata2.json"):
 
     max_trlen = max((len(tup[0]) for tup in datasets[0]))
     max_vallen = max((len(tup[0]) for tup in datasets[1]))
-    print "max sentence lengths:", max_trlen, max_vallen
+    print("max sentence lengths:", max_trlen, max_vallen)
 
     # map words to indices
     trwindows = [[vocab[wrd] if wrd in vocab else vocab["UNK"] for wrd in window]
@@ -793,10 +793,10 @@ def save_coref_task_data(outfile, inp_file="full_newnba_prepdata2.json"):
                    + [-1]*(max_vallen - len(window)) for (window, label) in datasets[1]]
     vallabels = [label for (window, label) in datasets[1]]
 
-    print len(trwindows), "training examples"
-    print len(valwindows), "validation examples"
-    print Counter(trlabels)
-    print Counter(vallabels)
+    print(len(trwindows), "training examples")
+    print(len(valwindows), "validation examples")
+    print(Counter(trlabels))
+    print(Counter(vallabels))
 
     h5fi = h5py.File(outfile, "w")
     h5fi["trwindows"] = np.array(trwindows, dtype=int)

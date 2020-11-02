@@ -11,8 +11,8 @@ JSON = "./boxscore-data/rotowire/train.json"  # input train.json file
 ORACLE_IE_OUTPUT = './boxscore-data/rotowire/broto_train-beam5_gens.h5-tuples.txt'  # oracle content plan obtained from IE tool
 INTER_CONTENT_PLAN = './boxscore-data/rotowire/inter/train_content_plan.txt'  # intermediate content plan input to second stage
 SRC_FILE = './boxscore-data/rotowire/src_train.txt'  # src file input to first stage
-TRAIN_TGT_FILE = "rotowire/tgt_train.txt"  # tgt file of second stage
-CONTENT_PLAN_OUT = 'rotowire/train_content_plan.txt'  # content plan output of first stage
+TRAIN_TGT_FILE = "./boxscore-data/rotowire/tgt_train.txt"  # tgt file of second stage
+CONTENT_PLAN_OUT = './boxscore-data/rotowire/train_content_plan.txt'  # content plan output of first stage
 
 HOME = "HOME"
 AWAY = "AWAY"
@@ -332,9 +332,9 @@ for summary in summaries:
     summary_file.write("\n")
 summary_file.close()
 
-src_file = open(SRC_FILE, 'w')
+src_file = codecs.open(SRC_FILE, 'w', 'utf-8')
 for src_instance in src_instances:
-    src_file.write(src_instance.encode("utf-8"))
+    src_file.write(u'\ufeff')
     src_file.write("\n")
 src_file.close()
 
